@@ -36,18 +36,6 @@ INSERT INTO productos (nombre, cantidad, precio, descripcion, imagen, categoria,
 ('Pala para jardín', 70, 13000, 'Pala metálica para jardinería', 'pala.jpg', 'Jardineria y exteriores', 'Activo'),
 ('Esmalte sintético rojo 1L', 50, 27000, 'Esmalte de alta calidad', 'esmalte.jpg', 'Pinturas', 'Activo');
 
--- Crear tabla historial_activaciones
-CREATE TABLE historial_activaciones (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  producto_id INT UNSIGNED NOT NULL,    -- Aseguramos que sea del mismo tipo que 'id' en productos
-  descripcion VARCHAR(250) NOT NULL,
-  fecha_activacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-  usuario_id INT,  
-  FOREIGN KEY (producto_id) REFERENCES productos(id),
-  FOREIGN KEY (usuario_id) REFERENCES usuario(id)     -- Referencia a la tabla usuarios
-  ON DELETE CASCADE  -- Si se elimina el producto, se eliminarán las activaciones relacionadas
-);
-
 -- Crear tabla de usuario
 CREATE TABLE usuario (
     ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,6 +49,19 @@ CREATE TABLE usuario (
     Rol ENUM('Administrador', 'Almacenista', 'Cajero', 'Cliente') NOT NULL,
     Estado ENUM('Activo', 'Inactivo') DEFAULT 'Activo',
     Usoc ENUM('Usada', 'NoUsada') DEFAULT 'NoUsada'
+);
+
+
+-- Crear tabla historial_activaciones
+CREATE TABLE historial_activaciones (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  producto_id INT UNSIGNED NOT NULL,    -- Aseguramos que sea del mismo tipo que 'id' en productos
+  descripcion VARCHAR(250) NOT NULL,
+  fecha_activacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+  usuario_id INT,  
+  FOREIGN KEY (producto_id) REFERENCES productos(id),
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id)     -- Referencia a la tabla usuarios
+  ON DELETE CASCADE  -- Si se elimina el producto, se eliminarán las activaciones relacionadas
 );
 
 -- Insertar registros en usuario
