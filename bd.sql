@@ -51,7 +51,6 @@ CREATE TABLE usuario (
     Usoc ENUM('Usada', 'NoUsada') DEFAULT 'NoUsada'
 );
 
-
 -- Crear tabla historial_activaciones
 CREATE TABLE historial_activaciones (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,6 +61,17 @@ CREATE TABLE historial_activaciones (
   FOREIGN KEY (producto_id) REFERENCES productos(id),
   FOREIGN KEY (usuario_id) REFERENCES usuario(id)     -- Referencia a la tabla usuarios
   ON DELETE CASCADE  -- Si se elimina el producto, se eliminarán las activaciones relacionadas
+);
+
+CREATE TABLE historial_inactivaciones (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  producto_id INT UNSIGNED NOT NULL,
+  descripcion VARCHAR(250) NOT NULL,
+  fecha_inactivacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+  usuario_id INT,  
+  FOREIGN KEY (producto_id) REFERENCES productos(id),
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id)     
+  ON DELETE CASCADE
 );
 
 -- Insertar registros en usuario
@@ -125,3 +135,7 @@ CREATE TABLE detalle_venta (
     FOREIGN KEY (venta_id) REFERENCES ventas(id), 
     FOREIGN KEY (producto_id) REFERENCES productos(id) 
 );
+
+
+select * from usuario;
+update usuario set rol ='Administrador' where ID=11;
